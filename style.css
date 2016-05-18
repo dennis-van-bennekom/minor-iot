@@ -91,3 +91,40 @@ body {
 .graph__chart {
     max-width: 100%;
 }
+
+.settings {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.settings__text {
+    max-width: 20rem;
+    
+    line-height: 1.4;
+    font-size: 0.9rem;
+    font-style: italic;
+    text-align: center;
+    
+    color: #7a7a7a;
+}
+
+.settings__button {
+    display: block;
+    margin: 1rem auto;
+    padding: 0rem 0.8rem;
+    
+    line-height: 2.2rem;
+    
+    background: #8fc0d7;
+    border: none;
+    border-radius: 1.1rem;
+    color: #fff;
+}
+
+.settings__button:hover {
+    text-decoration: underline;
+    
+    cursor: pointer;
+}

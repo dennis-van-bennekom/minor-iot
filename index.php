@@ -15,7 +15,7 @@
             <nav class="navigation">
                 <ul class="navigation__list">
                     <li class="navigation__item"><a href="/" class="navigation__link current">Dashboard</a></li>
-                    <li class="navigation__item"><a href="instellingen.html" class="navigation__link">Instellingen</a></li>
+                    <li class="navigation__item"><a href="instellingen.php" class="navigation__link">Instellingen</a></li>
                 </ul>
             </nav>
         </div>
