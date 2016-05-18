@@ -1,0 +1,93 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Montserrat', sans-serif;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    
+    color: #333;
+}
+
+.header {
+    background: #3eaadd;
+    color: #fff;
+}
+
+.header__inner {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto;
+    padding: 1rem;
+    max-width: 50rem;
+}
+
+.header__title {
+    margin: 0;
+    padding: 0;
+    
+    font-size: 1rem;
+}
+
+.navigation__list {
+    display: flex;
+    margin: 0;
+    padding: 0;
+    
+    list-style: none;
+}
+
+.navigation__item:not(:last-of-type) {
+    margin-right: 0.5rem;
+}
+
+.navigation__link {
+    display: block;
+    
+    text-decoration: none;
+    
+    color: #fff;
+}
+
+.navigation__link.current,
+.navigation__link:hover {
+    text-decoration: underline;
+}
+
+.content {
+    margin: 0 auto;
+    padding: 1rem;
+    max-width: 50rem;
+}
+
+.timespan__button {
+    padding: 0 0.6rem;
+    
+    text-transform: lowercase;
+    line-height: 1.8rem;
+    
+    background: #8fc0d7;
+    color: #fff;
+    
+    border: none;
+    border-radius: 0.9rem;
+}
+
+.timespan__button:not(:last-of-type) {
+    margin-right: 0.2rem;
+}
+
+.timespan__button.current {
+    background: #3eaadd;
+}
+
+.timespan__button:hover {
+    cursor: pointer;
+}
+
+.graph__chart {
+    max-width: 100%;
+}

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="normalize.css">
+    <link rel="stylesheet" href="style.css">
+    <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700|Roboto:400,300,500,700,100,100italic,300italic,400italic,500italic,700italic,900italic,900' rel='stylesheet' type='text/css'>
+</head>
+<body>
+    <header class="header">
+        <div class="header__inner">
+            <h1 class="header__title">Dieren</h1>
+        
+            <nav class="navigation">
+                <ul class="navigation__list">
+                    <li class="navigation__item"><a href="/" class="navigation__link">Dashboard</a></li>
+                    <li class="navigation__item"><a href="instellingen.html" class="navigation__link current">Instellingen</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <main class="content">
+        <div class="settings">
+            <form action="settings.php">
+                <label for="alarm">Alarm level: </label>
+                <input id="alarm" name="alarm" type="number" min="0" max="10" value="5">
+            </form>
+        </div>
+    </main>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+    <script src="instellingen.js"></script>
+</body>
+</html>
