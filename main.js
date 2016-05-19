@@ -1,12 +1,12 @@
 (function() {
+    var active = 'day';
+    
     Chart.defaults.global.animation.duration = 0;
     
     var $soundChart = $('.js-sound-chart');
     
-    var labels = calculatePast(24, 'hours', 'hh');
-    
     var data = {
-        labels: labels,
+        labels: [],
         datasets: [
             {
                 label: "Geluid",
@@ -27,7 +27,7 @@
                 pointHoverBorderWidth: 2,
                 pointRadius: 1,
                 pointHitRadius: 10,
-                data: [0, 3, 9, 7, 6, 5, 4, 8, 6, 3, 0, 3, 9, 7, 6, 5, 4, 8, 6, 3, 4, 2, 1, 6]
+                data: []
             }
         ]
     };
@@ -47,16 +47,6 @@
         }
     });
     
-    function calculatePast(amount, type, format) {
-        var past = [];
-        
-        for (var i = 0; i < amount; i++) {
-            past.unshift(moment().subtract(i, type).format(format));
-        } 
-        
-        return past;
-    }
-    
     var $timespan = $('.js-timespan');
     $timespan.on('click', function(e) {
         e.preventDefault();
@@ -66,23 +56,162 @@
         
         var timespan = $(e.target).data('timespan');
        
-        var labels = [];
-        
         switch(timespan) {
             case 'day':
-                labels = calculatePast(24, 'hours', 'hh');
+                active = 'day';
+                getDay();
                 break;
             case 'week':
-                labels = calculatePast(7, 'days', 'dd');
+                active = 'week';
+                getWeek();
                 break;
             case 'month':
-                labels = calculatePast(32, 'days', 'DD');
+                active = 'month';
+                getMonth();
                 break;
         }
-        
-        soundChart.data.labels = labels;
-        soundChart.update();
     });
     
-    // TODO
+    function getSound(callback) {
+        $.get('sound.txt', function(data) {
+           data = data.split('\n');
+           
+           data = data.map(function(sound) {
+              sound = sound.split('-');
+              sound[0] = new Date(sound[0]);
+              sound[1] = parseInt(sound[1]);
+              
+              return sound;
+           });
+           
+           callback(data);
+        });
+    }
+    
+    function getDay() {
+        getSound(function(data) {
+            var labels = [];
+            var sounds = [];
+            
+            var pastHour = moment(data[0][0]).format('HH:00');
+            var avarage = 0;
+            var total = 0;
+            var amount = 0;
+            data.forEach(function(sound, index) {
+               var hour = moment(sound[0]).format('HH:00');
+               
+               if (pastHour !== hour || index === data.length - 1) {
+                   avarage = (total / amount).toFixed(2);
+                   labels.unshift(pastHour);
+                   sounds.unshift(avarage);
+                   
+                   pastHour = hour;
+                   
+                   avarage = 0;
+                   total = sound[1];
+                   amount = 1;
+               } else {
+                   total += sound[1];
+                   amount += 1;
+               }
+            });
+            
+            labels = _.takeRight(labels, 24);
+            sounds = _.takeRight(sounds, 24);
+            
+            soundChart.data.labels = labels;
+            soundChart.data.datasets[0].data = sounds;
+            soundChart.update();
+        });
+    }
+    
+    function getWeek() {
+        getSound(function(data) {
+            var labels = [];
+            var sounds = [];
+            
+            var pastDay = moment(data[0][0]).format('dd');
+            var avarage = 0;
+            var total = 0;
+            var amount = 0;
+            data.forEach(function(sound, index) {
+               var day = moment(sound[0]).format('dd');
+               
+               if (pastDay !== day || index === data.length - 1) {
+                   avarage = (total / amount).toFixed(2);
+                   labels.unshift(pastDay);
+                   sounds.unshift(avarage);
+                   
+                   pastDay = day;
+                   
+                   avarage = 0;
+                   total = sound[1];
+                   amount = 1;
+               } else {
+                   total += sound[1];
+                   amount += 1;
+               }
+            });
+            
+            labels = _.takeRight(labels, 7);
+            sounds = _.takeRight(sounds, 7);
+            
+            soundChart.data.labels = labels;
+            soundChart.data.datasets[0].data = sounds;
+            soundChart.update();
+        });
+    }
+    
+    function getMonth() {
+        getSound(function(data) {
+            var labels = [];
+            var sounds = [];
+            
+            var pastDay = moment(data[0][0]).format('Do');
+            var avarage = 0;
+            var total = 0;
+            var amount = 0;
+            data.forEach(function(sound, index) {
+               var day = moment(sound[0]).format('Do');
+               
+               if (pastDay !== day || index === data.length - 1) {
+                   avarage = (total / amount).toFixed(2);
+                   labels.unshift(pastDay);
+                   sounds.unshift(avarage);
+                   
+                   pastDay = day;
+                   
+                   avarage = 0;
+                   total = sound[1];
+                   amount = 1;
+               } else {
+                   total += sound[1];
+                   amount += 1;
+               }
+            });
+            
+            labels = _.takeRight(labels, 31);
+            sounds = _.takeRight(sounds, 31);
+            
+            soundChart.data.labels = labels;
+            soundChart.data.datasets[0].data = sounds;
+            soundChart.update();
+        });
+    }
+    
+    setInterval(function() {
+        switch(active) {
+            case 'day':
+                getDay();
+                break;
+            case 'week':
+                getWeek();
+                break;
+            case 'month':
+                getMonth();
+                break;
+        }
+    }, 5000);
+    
+    getDay();
 }());
