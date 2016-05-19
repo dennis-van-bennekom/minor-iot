@@ -10,7 +10,7 @@
 <body>
     <header class="header">
         <div class="header__inner">
-            <h1 class="header__title">Dieren</h1>
+            <h1 class="header__title">Dieren Geluid</h1>
         
             <nav class="navigation">
                 <ul class="navigation__list">
@@ -23,7 +23,7 @@
     
     <main class="content">
         <div class="graph">
-            <h1 class="graph__title">Dieren Geluid</h1>
+            <h1 class="graph__title">Geluid</h1>
         
             <div class="timespan">
                 <button data-timespan="day" class="timespan__button js-timespan current">Dag</button>
