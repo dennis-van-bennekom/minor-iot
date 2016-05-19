@@ -1,4 +1,6 @@
 <?php
+date_default_timezone_set('Europe/Amsterdam');
+
 $value = $_POST['alarm'];
 $date = date("D M d Y H:i:s 0");
 $file = "sound.txt";
