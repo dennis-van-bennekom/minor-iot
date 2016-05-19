@@ -16,7 +16,7 @@
 <body>
     <header class="header">
         <div class="header__inner">
-            <h1 class="header__title">Dieren</h1>
+            <h1 class="header__title">Dieren Geluid</h1>
         
             <nav class="navigation">
                 <ul class="navigation__list">
