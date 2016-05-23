@@ -1,13 +1,13 @@
-# Dieren Geluid
+# Animal Sound
 
-Bij mij thuis hebben we in de tuin twee varkens. Als die geluid maken dan betekend dat dat ze honger hebben. Soms ben je dan toevallig aan het stofzuigen en heb je niet door dat ze de buurt verstoren. Hiervoor heb ik een oplossing bedacht. Het idee is dat de gebruiker een overzicht heeft van het gedrag van hun dieren en ook een alarm in kan stellen op basis van hoeveel geluid er gemaakt wordt.
+At home we have two pigs. When they make sound it means they are hungry. Sometimes you are cleaning the house and you can't hear if they make sound and disturb the people around you. I made a solution for this problem. The idea is that the user can view the behaviour of their animals. An alarm can also be set to a specific sound level.
 
 <img src="https://i.imgur.com/jERURQ0.jpg" width="300">
 <img src="https://i.imgur.com/xuJcAY0.jpg" width="300">
 
 ## Benodigdheden
 
-Voor dit project heb je een aantal dingen nodig om te kunnen beginnen:
+For this project you need a few things to get started:
 
 - Wemos or similar ESP
 - Jumper wires
@@ -18,24 +18,24 @@ Voor dit project heb je een aantal dingen nodig om te kunnen beginnen:
 
 ## Hardware setup
 
-Laten we beginnen met de hardware. Maak precies na zoals je het op de foto kan zien:
+Let's start with the hardware, make sure it looks like the picture below.
 
 <img src="https://i.imgur.com/xuJcAY0.jpg">
 
-Zorg dat de Sound sensor (of LDR) verbonden is met de A0 input en de LED met de D8 output. 
+Make sure the sound sensor (or LDR) is connected to the A0 input and the LED with the D8 output.
 
 ## Arduino code
 
-Zorg dat je de Arduino IDE hebt geïnstalleerd voordat je verder gaat.
+Install the Arduino IDE before going further.
 
-Laten we beginnen ervoor te zorgen dat we kunnen verbinden met het internet:
+At first we make a connection to the internet.
 
 ```cpp
 #include <ESP8266WiFi.h>
 #include <ArduinoJson.h>
 #include <ESP8266HTTPClient.h>
 
-// Vul je eigen gegevens in
+// Fill in your own connection info
 const char* ssid = "jeinternet";
 const char* pass = "supergeheim";
 
@@ -73,7 +73,7 @@ void loop() {
 }
 ```
 
-De volgende stap is het toevoegen van de sensoren meten:
+The next step is to measure the sensor and set the data:
 
 ```cpp
 #include <ESP8266WiFi.h>
@@ -120,8 +120,7 @@ void setup() {
 void loop() {
   soundValue = analogRead(A0);
 
-  // Hier map ik de analoge waarde naar een 0 tot 10 getal 
-  // zodat we die verder makkelijk kunnen gebruiken
+  // We map the value to a 0 to 10 range so it's easier to use later
   int sound = map(soundValue, 0, 512, 0, 10);
   Serial.println("Sound Level: " + String(sound));
 
@@ -131,7 +130,7 @@ void loop() {
 }
 ```
 
-De laatste stap is het toevoegen van de POST en de GET naar de server die we straks zullen opzetten:
+The final step is adding the POST and GET requests to the server we will setup later:
 
 ```cpp
 #include <ESP8266WiFi.h>
@@ -213,8 +212,6 @@ void setup() {
 void loop() {
   soundValue = analogRead(A0);
 
-  // Hier map ik de analoge waarde naar een 0 tot 10 getal 
-  // zodat we die verder makkelijk kunnen gebruiken
   int sound = map(soundValue, 0, 512, 0, 10);
   Serial.println("Sound Level: " + String(sound));
   
@@ -231,11 +228,11 @@ void loop() {
   delay(5000);
 }
 ```
-Nu zijn we klaar met het Arduino gedeelte.
+Now the arduino part is done.
 
 ## Server en front-end
 
-Voor de POST hebben we een data.php bestand die de geluidswaarde zal wegschrijven in een text bestand:
+The POST to the data.php file will handle the sound values and write them to a text file:
 
 ```php
 <?php
@@ -248,9 +245,9 @@ $content = file_get_contents($file);
 file_put_contents($file, $date . "-" . $value . "\n" . $content);
 ```
 
-Zoals je kunt zien stellen we tijdzone in zodat we geen verkeerde tijden krijgen.
+We make sure to set the correct timezone so we don't get wrong data.
 
-De GET request pakt gewoon het JSON bestand die we ook wegschrijven via PHP:
+The GET request simply reads the JSON file we write in the PHP file:
 
 ```php
 <?php
@@ -263,8 +260,8 @@ fwrite($settings, '{"alarm": "' . $value . '"}');
 header("Location: instellingen.php");
 ```
 
-Dit is alles wat we nodig hebben voor de server. De rest van de front-end code is te bekijken in deze repository.
+That's all we need for the server. The front-end code can be found in this repository.
 
-# Conclusie
+# Conclusion
 
-Deze combinatie van een Arduino een PHP server en een dashboard zorgt voor een mooie oplossing voor het probleem. De live site is hier te bekijken: http://iot.dennisvanbennekom.com/
+This combination of an arduino a PHP server and a dashboard is a good solution for the problem. The live site can be seen here: http://iot.dennisvanbennekom.com/
