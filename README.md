@@ -230,7 +230,7 @@ void loop() {
 ```
 Now the arduino part is done.
 
-## Server en front-end
+## Server and front-end
 
 The POST to the data.php file will handle the sound values and write them to a text file:
 
